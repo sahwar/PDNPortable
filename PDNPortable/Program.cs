@@ -15,8 +15,10 @@ namespace PDNPortable
         {
             Application.EnableVisualStyles(); // This is only here for the error dialog box
 
+            // Get the full path of the paint.net executable
             string pdnexe = Application.StartupPath + @"\paint.net\PaintDotNet.exe";
 
+            // If the paint.net executable can't be found, show a message & don't proceed
             if (!File.Exists(pdnexe))
             {
                 MessageBox.Show("Can not find the paint.net executable. Please copy it from an existing installation.", "PDN Portable", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -51,6 +53,7 @@ namespace PDNPortable
             // Also set a registry value to disable updates
             regKey.SetValue("CHECKFORUPDATES", "0", RegistryValueKind.String);
 
+            // Get the files being opened, if any
             string imagePaths = string.Empty;
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 1)
