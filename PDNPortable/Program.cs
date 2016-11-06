@@ -15,6 +15,14 @@ namespace PDNPortable
         {
             Application.EnableVisualStyles(); // This is only here for the error dialog box
 
+            string pdnexe = Application.StartupPath + @"\paint.net\PaintDotNet.exe";
+
+            if (!File.Exists(pdnexe))
+            {
+                MessageBox.Show("Can not find the paint.net executable. Please copy it from an existing installation.", "PDN Portable");
+                return;
+            }
+
             // Set the Registry Key 
             RegistryKey regKey;
             regKey = Registry.CurrentUser.CreateSubKey(@"Software\paint.net");
@@ -43,9 +51,6 @@ namespace PDNPortable
             // Also set a registry value to disable updates
             regKey.SetValue("CHECKFORUPDATES", "0", RegistryValueKind.String);
 
-            // Start paint.net, and wait for it to close
-            string pdnexe = Application.StartupPath + @"\paint.net\PaintDotNet.exe";
-
             string imagePaths = string.Empty;
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 1)
@@ -61,11 +66,8 @@ namespace PDNPortable
                     imagePaths = string.Join(" ", imageList);
             }
 
-            if (File.Exists(pdnexe))
-                Process.Start(pdnexe, imagePaths).WaitForExit();
-            else
-                MessageBox.Show("Can not find the paint.net executable. Please copy it from an existing installation.", "PDN Portable");
-
+            // Start paint.net, and wait for it to close
+            Process.Start(pdnexe, imagePaths).WaitForExit();
 
             // Clean the local registry
             Registry.CurrentUser.DeleteSubKeyTree(@"Software\paint.net");
