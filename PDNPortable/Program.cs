@@ -19,7 +19,7 @@ namespace PDNPortable
 
             if (!File.Exists(pdnexe))
             {
-                MessageBox.Show("Can not find the paint.net executable. Please copy it from an existing installation.", "PDN Portable");
+                MessageBox.Show("Can not find the paint.net executable. Please copy it from an existing installation.", "PDN Portable", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
